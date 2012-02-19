@@ -1,94 +1,137 @@
-/*
+/**
+Clothoid
 
-Copyright (c) 2012, Serge Demers <sdemers@gmail.com>
-
-Permission is hereby granted, free of charge, to any person
-obtaining a copy of this software and associated documentation
-files (the “Software”), to deal in the Software without
-restriction, including without limitation the rights to use,
-copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the
-Software is furnished to do so, subject to the following
-conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-OTHER DEALINGS IN THE SOFTWARE.
-
+Copyright: Serge Demers 2012
+License: <a href="http://www.boost.org/LICENSE_1_0.txt">Boost License 1.0</a>.
 */
 
 module geomd.clothoid;
 
-import std.math;
+import geomd.test;
 
+import std.math;
+import std.stdio;
+import std.format;
+import std.range;
+
+/**
+    Represents a Clothoid (or Euler Spiral)
+
+    Euler spirals are widely used in rail and highway engineering for providing
+    a transition or an easement between a tangent and a horizontal circular curve.
+*/
 class Clothoid
 {
-    private double   m_A;
-    private double[20] m_powersOfA;
 
-    //------------------------------------------------------------------------------
-    /**
-        Computes a term for the approximate function.
+private double      m_A = 1.0;
+private double[20]  m_powersOfA;
 
-        Bugs: Doesn't work for negative values.
+override string toString() const
+{
+    return "allo" ;
+    //string s = "m_A: " + m_A + "\n";
+    //s += "m_powersOfA: [" + m_powersOfA + "]";
 
-    *///----------------------------------------------------------------------------
-    private double term(double L, int powerOfL, int powerOfA, double constant)
+    //return s;
+/*
+    foreach (auto i: 0..(m_powersOfA.length - 2))
     {
-        return pow(L, powerOfL) / (constant * m_powersOfA[powerOfA]);
+        s+= m_powersOfA[i] + ", ")
+    }
+    s += m_powersOfA[m_powersOfA.length - 1] + "]";
+*/
+}
+
+/**
+    Computes a term for the approximate function.
+*/
+private double term(double L, int powerOfL, int powerOfA, double constant) immutable
+{
+    return pow(L, powerOfL) / (constant * m_powersOfA[powerOfA]);
+}
+
+
+/**
+    Constructor, clothoid is placed at origin (0, 0).
+
+    Params:
+        A = flatness value
+*/
+this(double A = 1.0)
+{
+    foreach (int i; 0..(m_powersOfA.length - 1))
+    {
+        m_powersOfA[i] = pow(m_A, i);
+    }
+}
+
+
+/**
+    Returns the length at given radius
+*/
+double lengthAtRadius(double radius)
+{
+    assert(radius != 0.0);
+    return m_powersOfA[2] / radius;
+}
+
+/**
+    Returns the radius at given length
+*/
+double radiusAtLength(double length) immutable
+{
+    if (length > 0.0)
+    {
+        return m_powersOfA[2] / length;
     }
 
-    //------------------------------------------------------------------------------
-    /**
-        Constructor, clothoid is placed at origin (0, 0).
+    return double.max;
+}
 
-        Params:
-            A = flatness value
-    *///----------------------------------------------------------------------------
-    this(double A = 1.0)
-    {
-        foreach (int i; 0..(m_powersOfA.length - 1))
-        {
-            m_powersOfA[i] = pow(m_A, i);
-        }
-    }
+/**
+    Returns the tangent at given length
+*/
+double tangentAtLength(double length) immutable
+{
+    return length * length / (2.0 * m_powersOfA[2]);
+}
 
-    //------------------------------------------------------------------------------
-    /**
-        Returns the length at given radius
+/**
+    Returns the length at given tangent
+*/
+double lengthAtTangent(double radTangent) immutable
+{
+    return sqrt(2.0 * m_powersOfA[2] * radTangent);
+}
 
-    *///----------------------------------------------------------------------------
-    double lengthAtRadius(double radius)
-    {
-        assert(radius != 0.0);
-        return m_powersOfA[2] / radius;
-    }
+} // Clothoid
 
-    //------------------------------------------------------------------------------
-    /**
-        Returns the radius at given length
 
-    *///----------------------------------------------------------------------------
-    double radiusAtLength(double length)
-    {
-        if (length > 0.0)
-        {
-            return m_powersOfA[2] / length;
-        }
+/**
+    Computes flatness of a clothoid.
 
-        return double.max;
-    }
+    Examples:
+    ---
+    double flatness = computeFlatness(10.0, PI/2);
+    Clothoid clothoid(flatness);
+    ---
+*/
+double computeFlatness(double length, double radius)
+{
+    return sqrt(radius * length);
+}
 
-    static double computeFlatness(double length, double radius)
-    {
-        return sqrt(radius * length);
-    }
+unittest
+{
+    double flatness = computeFlatness(10.0, PI_2);
+    assert(checkClose!double(flatness, 3.963327298));
+
+    auto clothoid = new Clothoid(flatness);
+    assert(checkClose!double(clothoid.lengthAtRadius(5.0), 0.2));
+
+    assert(check!int(0, 1));
+}
+
+void main()
+{
 }
