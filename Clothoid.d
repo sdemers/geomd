@@ -125,13 +125,10 @@ unittest
 {
     double flatness = computeFlatness(10.0, PI_2);
     assert(checkClose!double(flatness, 3.963327298));
+    assert(checkClose!double(flatness, 4.96));
 
     auto clothoid = new Clothoid(flatness);
     assert(checkClose!double(clothoid.lengthAtRadius(5.0), 0.2));
 
     assert(check!int(0, 1));
-}
-
-void main()
-{
 }

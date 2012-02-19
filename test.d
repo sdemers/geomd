@@ -7,9 +7,10 @@ License: <a href="http://www.boost.org/LICENSE_1_0.txt">Boost License 1.0</a>.
 
 module geomd.test;
 
-import std.stdio;
 import std.format;
+import std.math;
 import std.range;
+import std.stdio;
 
 private bool checkReturn(T)(T val, T expected, bool delegate() fp, bool print, string format)
 {
@@ -23,7 +24,7 @@ private bool checkReturn(T)(T val, T expected, bool delegate() fp, bool print, s
 }
 
 /**
-    Compares any values that supports the == operator.
+    Compares values that supports the == operator.
 */
 bool check(T)(T val, T expected, bool print = true)
 {
@@ -45,4 +46,9 @@ bool checkClose(T)(T val, T expected, T epsilon = 0.00001,
 {
     bool fp() { return abs(val - expected) < epsilon; }
     return checkReturn!(T)(val, expected, &fp, print, format);
+}
+
+unittest
+{
+    assert(0 == 1);
 }
