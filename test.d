@@ -12,7 +12,8 @@ import std.math;
 import std.range;
 import std.stdio;
 
-private bool checkReturn(T)(T val, T expected, bool delegate() fp, bool print, string format)
+private bool checkReturn(T)(T val, T expected, bool delegate() fp,
+                            bool print, string format)
 {
     bool ret = fp();
     if (ret == false && print)
@@ -46,9 +47,4 @@ bool checkClose(T)(T val, T expected, T epsilon = 0.00001,
 {
     bool fp() { return abs(val - expected) < epsilon; }
     return checkReturn!(T)(val, expected, &fp, print, format);
-}
-
-unittest
-{
-    assert(0 == 1);
 }

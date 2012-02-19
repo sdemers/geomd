@@ -13,6 +13,8 @@ import std.math;
 import std.stdio;
 import std.format;
 import std.range;
+import std.conv;
+
 
 /**
     Represents a Clothoid (or Euler Spiral)
@@ -28,18 +30,9 @@ private double[20]  m_powersOfA;
 
 override string toString() const
 {
-    return "allo" ;
-    //string s = "m_A: " + m_A + "\n";
-    //s += "m_powersOfA: [" + m_powersOfA + "]";
-
-    //return s;
-/*
-    foreach (auto i: 0..(m_powersOfA.length - 2))
-    {
-        s+= m_powersOfA[i] + ", ")
-    }
-    s += m_powersOfA[m_powersOfA.length - 1] + "]";
-*/
+    string s = "geomd.clothoid.Clothoid\n" ~ "m_A: " ~ to!string(m_A) ~ "\n";
+    s ~= "m_powersOfA: " ~ to!string(m_powersOfA);
+    return s;
 }
 
 /**
@@ -59,7 +52,9 @@ private double term(double L, int powerOfL, int powerOfA, double constant) immut
 */
 this(double A = 1.0)
 {
-    foreach (int i; 0..(m_powersOfA.length - 1))
+    m_A = A;
+
+    foreach (int i; 0..(m_powersOfA.length))
     {
         m_powersOfA[i] = pow(m_A, i);
     }
@@ -123,12 +118,9 @@ double computeFlatness(double length, double radius)
 
 unittest
 {
-    double flatness = computeFlatness(10.0, PI_2);
-    assert(checkClose!double(flatness, 3.963327298));
-    assert(checkClose!double(flatness, 4.96));
+    double flatness = computeFlatness(10.0, PI / 8);
+    assert(checkClose!double(flatness, 1.981663649));
 
     auto clothoid = new Clothoid(flatness);
-    assert(checkClose!double(clothoid.lengthAtRadius(5.0), 0.2));
-
-    assert(check!int(0, 1));
+    assert(checkClose!double(clothoid.lengthAtRadius(5.0), 0.7853981634));
 }

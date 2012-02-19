@@ -1,3 +1,3 @@
 redo-ifchange lib
-redo-ifchange unittest
+redo-ifchange test
 redo-ifchange doc

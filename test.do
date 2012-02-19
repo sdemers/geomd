@@ -1,4 +1,6 @@
-redo-ifchange unittest
-redo-ifchange testrunner.o
+exec >&2
+TESTRUNNER=testrunner
 
-dmd -unittest testrunner.o
+dmd *.d -unittest -I.. -of${TESTRUNNER}
+
+./${TESTRUNNER}
