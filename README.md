@@ -27,4 +27,4 @@ Installation
 You will need:
 
 * [DMD Compiler](http://www.d-programming-language.org/dcompiler.html)
-* [Redo](http://github.com/apenwarr/redo)
+* [redo](http://github.com/apenwarr/redo)
