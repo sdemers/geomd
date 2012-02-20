@@ -2,22 +2,17 @@
 Geom'd
 ======
 
-| Copyright: (c) 2012 Serge Demers
-
 Synopsis
 ========
-Geom'd is a geometry library written in D.
+Geom'd is a geometry library written in D. The code is released under the [Boost Software Licence V1.0](http://www.boost.org/LICENSE_1_0.txt).
 
-Implemented
-===========
+What's included
+===============
 * 2D point
 * Clothoid
 
 Todo
 ====
-
-Figures
--------
 * Arc
 * Bezier Curve
 * Circle
@@ -30,5 +25,6 @@ Other
 Installation
 ============
 You will need:
-* DMD Compiler (http://www.d-programming-language.org/dcompiler.html)
-* Redo (http://github.com/apenwarr/redo)
+
+* [DMD Compiler](http://www.d-programming-language.org/dcompiler.html)
+* [Redo](http://github.com/apenwarr/redo)
