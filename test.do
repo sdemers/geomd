@@ -1,8 +1,11 @@
-exec >&2
 TESTRUNNER=testrunner
+
+. ./SOURCES.sh
+
+exec >&2
 
 redo-ifchange *.d
 
-dmd *.d -unittest -I.. -of${TESTRUNNER}
+dmd *.d -unittest ${INCL} -of${TESTRUNNER}
 
 ./${TESTRUNNER}
