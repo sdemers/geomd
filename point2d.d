@@ -55,4 +55,6 @@ unittest
     assert(checkClose!double(p1.y(), p3.y()));
     assert(p1 != p2);
     assert(p1 != p3);
+
+    assert(p1 != p3);
 }

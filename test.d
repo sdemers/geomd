@@ -11,15 +11,18 @@ import std.format;
 import std.math;
 import std.range;
 import std.stdio;
+import std.conv;
 
-private bool checkReturn(T)(T val, T expected, bool delegate() fp,
+private bool checkReturn(T)(T val, T expected,
+                            string file, int line, bool delegate() fp,
                             bool print, string format)
 {
     bool ret = fp();
     if (ret == false && print)
     {
-        string fmt = "Test failed: got " ~ format ~ ", expected " ~ format;
-        writefln(fmt, val, expected);
+        string fmt = file ~ "(" ~ to!string(line) ~
+                     "): Test failed: got " ~ format ~ ", expected " ~ format;
+        stderr.writefln(fmt, val, expected);
     }
     return ret;
 }
@@ -27,10 +30,11 @@ private bool checkReturn(T)(T val, T expected, bool delegate() fp,
 /**
     Compares values that supports the == operator.
 */
-bool check(T)(T val, T expected, bool print = true)
+bool check(T)(T val, T expected,
+              string file = __FILE__, int line = __LINE__, bool print = true)
 {
     bool fp() { return val == expected; }
-    return checkReturn!(T)(val, expected, &fp, print, "%s");
+    return checkReturn!(T)(val, expected, file, line, &fp, print, "%s");
 }
 
 /**
@@ -38,13 +42,15 @@ bool check(T)(T val, T expected, bool print = true)
 
     Examples:
     ---
-    assert(checkClose!float(0.001f, 0.002f));
-    assert(checkClose!double(PI, 3.14159));
+    checkClose!float(0.001f, 0.002f);
+    checkClose!double(PI, 3.14159);
     ---
 */
-bool checkClose(T)(T val, T expected, T epsilon = 0.00001,
+bool checkClose(T)(T val, T expected,
+                   string file = __FILE__, int line = __LINE__,
+                   T epsilon = 0.00001,
                    bool print = true, string format = "%.10g")
 {
     bool fp() { return abs(val - expected) < epsilon; }
-    return checkReturn!(T)(val, expected, &fp, print, format);
+    return checkReturn!(T)(val, expected, file, line, &fp, print, format);
 }
