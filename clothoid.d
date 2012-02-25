@@ -54,7 +54,7 @@ class Clothoid
     /**
         Returns the length at given radius.
     */
-    double lengthAtRadius(double radius)
+    double lengthAtRadius(double radius) const
     {
         assert(radius != 0.0);
         return m_powersOfA[2] / radius;
@@ -63,7 +63,7 @@ class Clothoid
     /**
         Returns the radius at given length.
     */
-    double radiusAtLength(double length) immutable
+    double radiusAtLength(double length) const
     {
         if (length > 0.0)
         {
@@ -76,7 +76,7 @@ class Clothoid
     /**
         Returns the tangent at given length.
     */
-    double tangentAtLength(double length) immutable
+    double tangentAtLength(double length) const
     {
         return length * length / (2.0 * m_powersOfA[2]);
     }
@@ -84,7 +84,7 @@ class Clothoid
     /**
         Returns the length at given tangent.
     */
-    double lengthAtTangent(double radTangent) immutable
+    double lengthAtTangent(double radTangent) const
     {
         return sqrt(2.0 * m_powersOfA[2] * radTangent);
     }
@@ -145,6 +145,14 @@ unittest
 
     auto clothoid = new Clothoid(flatness);
     checkClose!double(clothoid.lengthAtRadius(5.0), 10.0);
+
+    checkClose!double(clothoid.radiusAtLength(10.0), 5.0);
+    checkClose!double(clothoid.radiusAtLength(7.5), 6.66667);
+
+    checkClose!double(clothoid.tangentAtLength(7.5), 0.5625);
+
+    checkClose!double(clothoid.lengthAtTangent(0.3333), 5.77321401);
+    checkClose!double(clothoid.lengthAtTangent(0.0333), 1.824828759);
 
     auto p1 = clothoid.xy(5.0);
     checkClose!double(p1.x(), 4.968840292);
