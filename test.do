@@ -1,11 +1,11 @@
 TESTRUNNER=testrunner
 
-. ./SOURCES.sh
+. ./config.sh
 
 exec >&2
 
 redo-ifchange *.d
 
-dmd *.d -unittest ${INCL} -of${TESTRUNNER}
+${DMD} *.d -unittest ${INCL} -of${TESTRUNNER}
 
 ./${TESTRUNNER}
