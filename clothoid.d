@@ -148,6 +148,7 @@ unittest
 
     checkClose!double(clothoid.radiusAtLength(10.0), 5.0);
     checkClose!double(clothoid.radiusAtLength(7.5), 6.66667);
+    checkClose!double(clothoid.radiusAtLength(-1.0), double.max);
 
     checkClose!double(clothoid.tangentAtLength(7.5), 0.5625);
 
@@ -157,6 +158,11 @@ unittest
     auto p1 = clothoid.xy(5.0);
     checkClose!double(p1.x(), 4.968840292);
     checkClose!double(p1.y(), 0.4148102427);
+
+    string s ="geomd.clothoid
+    m_A: 7.07107
+    m_powersOfA: [1, 7.07107, 50, 353.553, 2500, 17677.7, 125000, 883883, 6.25e+06, 4.41942e+07, 3.125e+08, 2.20971e+09, 1.5625e+10, 1.10485e+11, 7.8125e+11, 5.52427e+12, 3.90625e+13, 2.76214e+14, 1.95313e+15, 1.38107e+16]";
+    check!bool(s == clothoid.toString());
 
     /*
     foreach (int i; 0..40)

@@ -54,3 +54,24 @@ bool checkClose(T)(T val, T expected,
     bool fp() { return abs(val - expected) < epsilon; }
     return checkReturn!(T)(val, expected, file, line, &fp, print, format);
 }
+
+/**
+    Checks if value is true.
+*/
+bool check(T)(bool value, string file = __FILE__, int line = __LINE__, bool print = true)
+{
+    if (value == false && print)
+    {
+        stderr.writefln(file ~ "(" ~ to!string(line) ~ "): Test failed");
+    }
+    return value;
+}
+
+/**
+    Asserts that value is true.
+*/
+bool require(bool value, string file = __FILE__, int line = __LINE__, bool print = true)
+{
+    assert(check!bool(value, file, line, print));
+    return value;
+}

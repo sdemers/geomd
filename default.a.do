@@ -1,8 +1,6 @@
 . ./config.sh
 
-DEPS=$(echo $SRCS |
-sed -e 's/\.d/.o/g' |
-sed -e 's/\.\.\///g')
+DEPS=$(echo $SRCS | sed -e 's/\.d/.o/g')
 
 redo-ifchange ${DEPS}
 

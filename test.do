@@ -4,8 +4,11 @@ TESTRUNNER=testrunner
 
 exec >&2
 
-redo-ifchange *.d
+DEPS=$(echo $SRCS | sed -e 's/\.d/.o/g')
+redo-ifchange ${DEPS}
 
-${DMD} *.d -unittest ${INCL} -of${TESTRUNNER}
+${DMD} *.d -cov -unittest ${INCL} -of${TESTRUNNER}
 
 ./${TESTRUNNER}
+
+cat *.lst | grep "% covered"

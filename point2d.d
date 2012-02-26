@@ -49,12 +49,11 @@ unittest
     Point2Dd p2 = new Point2Dd(1.1, 1.1);
     Point2Dd p3 = new Point2Dd(1.0, 1.0);
 
-    assert(p1.x() != p2.x());
-    assert(p1.y() != p2.y());
-    assert(checkClose!double(p1.x(), p3.x()));
-    assert(checkClose!double(p1.y(), p3.y()));
-    assert(p1 != p2);
-    assert(p1 != p3);
-
-    assert(p1 != p3);
+    check!bool(p1.x() != p2.x());
+    check!bool(p1.y() != p2.y());
+    check!bool(checkClose!double(p1.x(), p3.x()));
+    check!bool(checkClose!double(p1.y(), p3.y()));
+    check!bool(p1 != p2);
+    check!bool(p1 != p3);
+    check!bool(p2.toString() == "(1.1, 1.1)");
 }
