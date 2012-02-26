@@ -19,7 +19,7 @@ import std.algorithm;
 
 
 /**
-    This class is used as the the Bezier Curve parameter and represents a
+    This class is used as the Bezier Curve parameter and represents a
     floating point value between 0.0 and 1.0.
 
     Coordinates and length are unitless.
@@ -87,8 +87,7 @@ class BezierIndex
     }
 
     /**
-        Prefix operator: increments value by "incrementStep" and
-        returns the new value.
+        Prefix operator: increments value by "incrementStep"
     */
     void opUnary(string s)() if (s == "++")
     {
@@ -96,8 +95,7 @@ class BezierIndex
     }
 
     /**
-        Prefix operator: decrements value by "incrementStep" and
-        returns the new value.
+        Prefix operator: decrements value by "incrementStep"
     */
     void opUnary(string s)() if (s == "--")
     {
@@ -124,7 +122,7 @@ private:
     double m_value;          /// index value [0.0 - 1.0]
     double m_preciseStep;    /// current step matching m_value [0.0 - incrementCount]
     size_t m_incrementCount; /// Number of increments between start and end of index
-    double m_incrementStep; /// Increment step (1.0 / m_incrementCount);
+    double m_incrementStep;  /// Increment step (1.0 / m_incrementCount)
 
 } // BezierIndex
 
@@ -166,5 +164,4 @@ unittest
     b2.setStep(99);
     check!bool(b2.isAtEnd() == false);
     checkClose(b2.value(), 0.99);
-
 }
