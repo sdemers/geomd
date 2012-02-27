@@ -16,6 +16,12 @@ import std.format;
 import std.range;
 import std.conv;
 
+enum OptimizationStrategy
+{
+    None,
+    Increments,
+    LinearApproximation
+}
 
 /**
     Represents a Cubic Bezier Curve

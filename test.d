@@ -70,8 +70,7 @@ bool check(T)(bool value, string file = __FILE__, int line = __LINE__, bool prin
 /**
     Asserts that value is true.
 */
-bool require(bool value, string file = __FILE__, int line = __LINE__, bool print = true)
+void require(bool value, string file = __FILE__, int line = __LINE__, bool print = true)
 {
     assert(check!bool(value, file, line, print));
-    return value;
 }
