@@ -34,9 +34,33 @@ class Point2D(T)
     /// Returns y coordinate.
     T y() const { return m_y; }
 
+    /// Adds rhs
+    auto opBinary(string op, T)(const ref Point2D!T rhs) const if (op == "+")
+    {
+        return new Point2D!T(m_x + rhs.m_x, m_y + rhs.m_y);
+    }
+
+    /// Substracts rhs
+    auto opBinary(string op, T)(const ref Point2D!T rhs) const if (op == "-")
+    {
+        return new Point2D!T(m_x - rhs.m_x, m_y - rhs.m_y);
+    }
+
+    /// Multiplies x and y by a value
+    auto opBinary(string op, T)(T multiplier) const if (op == "*")
+    {
+        return new Point2D!T(m_x * multiplier, m_y * multiplier);
+    }
+
+    /// Divides x and y by a value
+    auto opBinary(string op, T)(T divider) const if (op == "/")
+    {
+        return new Point2D!T(m_x / divider, m_y / divider);
+    }
+
 private:
-    T m_x;
-    T m_y;
+    const T m_x;
+    const T m_y;
 }
 
 alias Point2D!double Point2Dd; /// double alias

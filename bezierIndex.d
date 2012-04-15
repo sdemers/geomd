@@ -59,6 +59,14 @@ class BezierIndex
     }
 
     /**
+        Returns the bezier index's "step" as double.
+    */
+    double preciseStep() const
+    {
+        return m_preciseStep;
+    }
+
+    /**
         Sets the index's value (clamps between 0.0 and 1.0)
     */
     double setValue(double value)
@@ -116,6 +124,11 @@ class BezierIndex
     bool isAtEnd() const
     {
         return isZero(m_value - 1.0);
+    }
+
+    double getIncrementStep() const
+    {
+        return m_incrementStep;
     }
 
 private:
