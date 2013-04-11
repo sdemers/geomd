@@ -114,21 +114,19 @@ class BezierCurve
     }
 
     /// Returns the initial heading
-    double initHeading() const
+    @property double initHeading() const
     {
         return m_radInitHeading;
     }
 
     /// Returns the final heading
-    double finalHeading() const
+    @property double finalHeading() const
     {
         return m_radFinalHeading;
     }
 
-    /**
-        Returns the length
-    */
-    double length() const
+    /// Returns the length
+    @property double length() const
     {
         return m_length;
     }

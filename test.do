@@ -4,8 +4,7 @@ TESTRUNNER=testrunner
 
 exec >&2
 
-DEPS=$(echo $SRCS | sed -e 's/\.d/.o/g')
-redo-ifchange ${DEPS}
+redo-always
 
 ${DMD} *.d -cov -unittest ${INCL} -of${TESTRUNNER}
 

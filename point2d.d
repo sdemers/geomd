@@ -10,6 +10,7 @@ module geomd.point2d;
 
 import std.stdio;
 import std.conv;
+import std.math;
 import geomd.test;
 
 /**
@@ -25,37 +26,44 @@ class Point2D(T)
 
     override string toString() const
     {
-        return "(" ~ to!string(m_x) ~ ", " ~ to!string(m_y) ~ ")";
+        return "(" ~ to!string(x) ~ ", " ~ to!string(y) ~ ")";
     }
 
-    /// Returns x coordinate.
-    T x() const { return m_x; }
+    /// Returns x coordinate
+    @property T x() const { return m_x; }
 
     /// Returns y coordinate.
-    T y() const { return m_y; }
+    @property T y() const { return m_y; }
 
     /// Adds rhs
     auto opBinary(string op, T)(const ref Point2D!T rhs) const if (op == "+")
     {
-        return new Point2D!T(m_x + rhs.m_x, m_y + rhs.m_y);
+        return new Point2D!T(x + rhs.x, y + rhs.y);
     }
 
     /// Substracts rhs
     auto opBinary(string op, T)(const ref Point2D!T rhs) const if (op == "-")
     {
-        return new Point2D!T(m_x - rhs.m_x, m_y - rhs.m_y);
+        return new Point2D!T(x - rhs.x, y - rhs.y);
     }
 
     /// Multiplies x and y by a value
     auto opBinary(string op, T)(T multiplier) const if (op == "*")
     {
-        return new Point2D!T(m_x * multiplier, m_y * multiplier);
+        return new Point2D!T(x * multiplier, y * multiplier);
     }
 
     /// Divides x and y by a value
     auto opBinary(string op, T)(T divider) const if (op == "/")
     {
-        return new Point2D!T(m_x / divider, m_y / divider);
+        return new Point2D!T(x / divider, y / divider);
+    }
+
+    auto getDistance(const ref Point2D!T p) const
+    {
+        auto x2 = p.x() - x;
+        auto y2 = p.y() - y;
+        return sqrt(x2 * x2 + y2 * y2);
     }
 
 private:
@@ -80,4 +88,7 @@ unittest
     check!bool(p1 != p2);
     check!bool(p1 != p3);
     check!bool(p2.toString() == "(1.1, 1.1)");
+
+    checkClose!double(p1.getDistance(p2), 0.1414213562);
+    checkClose!double(p2.getDistance(p1), 0.1414213562);
 }

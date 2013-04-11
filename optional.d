@@ -100,11 +100,11 @@ unittest
     m1 = 2.0;
     check!bool(m1.isSet());
 
-    checkClose(m1.get(), 2.0);
-    checkClose(m1.getValueOr(3.0), 2.0);
+    checkClose!double(m1.get(), 2.0);
+    checkClose!double(m1.getValueOr(3.0), 2.0);
 
     m1.reset();
-    checkClose(m1.getValueOr(3.0), 3.0);
+    checkClose!double(m1.getValueOr(3.0), 3.0);
 
     auto m3 = Optional!int(1);
     check!bool(m3.isSet);

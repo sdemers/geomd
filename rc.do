@@ -1,1 +1,1 @@
-rm -f *.o *.a *.html *.so *.di testrunner *.lst
+rm -f *.o *.a *.html *.so *.di testrunner *.lst *.json
