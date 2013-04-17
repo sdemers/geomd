@@ -54,34 +54,34 @@ T radToDeg(T)(T rad)
 }
 
 /**
-	Filters an array of T with a function taking a T and an U. Returns a new
+  Filters an array of T with a function taking a T and an U. Returns a new
     array with the result.
 */
 public T[] filterArray(T, U)(T[] ts, U u, bool delegate(T, U) fp)
 {
-	T[] ret;
-	foreach (T e; ts)
-	{
-		if (fp(e, u))
-		{
-			ret ~= e;
-		}
-	}
+    T[] ret;
+    foreach (T e; ts)
+    {
+        if (fp(e, u))
+        {
+            ret ~= e;
+        }
+    }
 
-	return ret;
+    return ret;
 }
 
 public bool arrayContains(T, U)(T[] ts, U u, bool delegate(T, U) fp)
 {
-	foreach (T e; ts)
-	{
-		if (fp(e, u))
-		{
-			return true;
-		}
-	}
+    foreach (T e; ts)
+    {
+        if (fp(e, u))
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 public T popFront(T)(ref T[] a)
