@@ -142,7 +142,7 @@ private:
 unittest
 {
     auto b1 = new BezierIndex;
-    check!bool(b1.isAtStart());
+    check(b1.isAtStart());
     ++b1;
     checkClose(b1.value(), 0.002);
     ++b1;
@@ -157,24 +157,24 @@ unittest
     check!int(b1.step(), 1);
 
     auto b2 = new BezierIndex(0.0, 100);
-    check!bool(b2.isAtStart());
+    check(b2.isAtStart());
     ++b2;
     checkClose(b2.value(), 0.01);
     b2++;
     checkClose(b2.value(), 0.02);
 
     b2.reset();
-    check!bool(b2.isAtStart());
+    check(b2.isAtStart());
     b2.setValue(1.0);
-    check!bool(b2.isAtEnd());
+    check(b2.isAtEnd());
     b2.setValue(-1.0);
-    check!bool(b2.isAtStart());
+    check(b2.isAtStart());
     b2.setValue(2.0);
-    check!bool(b2.isAtEnd());
+    check(b2.isAtEnd());
 
     b2.setStep(101);
-    check!bool(b2.isAtEnd());
+    check(b2.isAtEnd());
     b2.setStep(99);
-    check!bool(b2.isAtEnd() == false);
+    check(b2.isAtEnd() == false);
     checkClose(b2.value(), 0.99);
 }

@@ -36,13 +36,13 @@ class Point2D(T)
     @property T y() const { return m_y; }
 
     /// Adds rhs
-    auto opBinary(string op, T)(const ref Point2D!T rhs) const if (op == "+")
+    auto opBinary(string op, T)(const Point2D!T rhs) const if (op == "+")
     {
         return new Point2D!T(x + rhs.x, y + rhs.y);
     }
 
     /// Substracts rhs
-    auto opBinary(string op, T)(const ref Point2D!T rhs) const if (op == "-")
+    auto opBinary(string op, T)(const Point2D!T rhs) const if (op == "-")
     {
         return new Point2D!T(x - rhs.x, y - rhs.y);
     }
@@ -59,7 +59,7 @@ class Point2D(T)
         return new Point2D!T(x / divider, y / divider);
     }
 
-    auto getDistance(const ref Point2D!T p) const
+    auto getDistance(const Point2D!T p) const
     {
         auto x2 = p.x() - x;
         auto y2 = p.y() - y;

@@ -58,7 +58,7 @@ bool checkClose(T)(T val, T expected,
 /**
     Checks if value is true.
 */
-bool check(T)(bool value, string file = __FILE__, int line = __LINE__, bool print = true)
+bool check(T = bool)(bool value, string file = __FILE__, int line = __LINE__, bool print = true)
 {
     if (value == false && print)
     {
