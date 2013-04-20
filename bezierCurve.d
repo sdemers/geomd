@@ -82,10 +82,10 @@ class BezierCurve
 
         m_length = increments[increments.length - 1].distanceFromStart;
 
-        m_radInitHeading = normalizeRadian(atan2(m_C.x(), m_C.y()));
+        m_radInitHeading = normalizeRadian!double(atan2(m_C.x(), m_C.y()));
 
-        m_radFinalHeading = normalizeRadian(atan2((m_p3.x() - m_p2.x()),
-                                                  (m_p3.y() - m_p2.y())));
+        m_radFinalHeading = normalizeRadian!double(atan2((m_p3.x() - m_p2.x()),
+                                                         (m_p3.y() - m_p2.y())));
 
 /*
         vector<XYPoint> points = list_of(m_p0)(m_p1)(m_p2)(m_p3);
