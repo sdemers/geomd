@@ -33,7 +33,7 @@ public:
     /**
         Returns if optional contains data.
     */
-    @property bool isSet() const
+    bool isSet() const
     {
         return m_isSet;
     }
@@ -41,7 +41,7 @@ public:
     /**
         Returns true if data is uninitialized (empty).
     */
-    @property bool isEmpty() const
+    bool isEmpty() const
     {
         return m_isSet == false;
     }

@@ -10,6 +10,7 @@ module geomd.bezierIndex;
 import geomd.point2d;
 import geomd.utils;
 import geomd.test;
+import geomd.optional;
 
 import std.math;
 import std.stdio;
@@ -27,7 +28,6 @@ import std.algorithm;
 */
 class BezierIndex
 {
-
     /**
         Constructor
 
@@ -138,6 +138,57 @@ private:
     double m_incrementStep;  /// Increment step (1.0 / m_incrementCount)
 
 } // BezierIndex
+
+/// Number of increments between 0.0 and 1.0
+static const size_t incrementCount = 500;
+
+/// Increment step
+static const double incrementStep = 1.0 / incrementCount;
+
+/**
+    IndexMultiplier
+
+    Pre-computed value of T, T^2 and T^3 for a given index value T.
+*/
+struct IndexMultiplier
+{
+    double t;
+    double t2;
+    double t3;
+}
+
+/**
+    IndexMultipliers
+
+    Collection of IndexMultiplier for index 0.0 to 1.0 at each step. Number of
+    IndexMultiplier can be retrieved with incrementCount().
+*/
+alias IndexMultiplier[] IndexMultipliers;
+
+static const(IndexMultipliers) indexMultipliers()
+{
+    static Optional!IndexMultipliers optMultipliers;
+
+    if (optMultipliers.isSet)
+    {
+        return optMultipliers.get();
+    }
+
+    IndexMultipliers multipliers;
+
+    foreach (i; 0 .. incrementCount)
+    {
+        double t = (i + 1 ) * incrementStep;
+        double t2 = t * t;
+        double t3 = t2 * t;
+
+        IndexMultiplier mult = { t:t, t2:t2, t3:t3 };
+        multipliers ~= mult;
+    }
+
+    optMultipliers = multipliers;
+    return multipliers;
+}
 
 unittest
 {

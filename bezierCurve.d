@@ -34,7 +34,6 @@ enum OptimizationStrategy
 */
 class BezierCurve
 {
-
     /**
         Constructor
 
@@ -44,11 +43,11 @@ class BezierCurve
             cp2 = coordinate of second control point
             end = coordinate of ending point
     */
-    this(const ref Point2Dd start,
-         const ref Point2Dd cp1,
-         const ref Point2Dd cp2,
-         const ref Point2Dd end,
-         OptimizationStrategy strategy)
+    this(const Point2Dd start,
+         const Point2Dd cp1,
+         const Point2Dd cp2,
+         const Point2Dd end,
+         OptimizationStrategy strategy = OptimizationStrategy.None)
     {
         m_p0 = start;
         m_p1 = cp1;
@@ -102,31 +101,31 @@ class BezierCurve
     }
 
     /// Returns the coordinates of the starting point.
-    auto ref initCoord() const
+    auto initCoord() const
     {
         return m_p0;
     }
 
     /// Returns the coordinates of the ending point.
-    auto ref finalCoord() const
+    auto finalCoord() const
     {
         return m_p3;
     }
 
     /// Returns the initial heading
-    @property double initHeading() const
+    double initHeading() const
     {
         return m_radInitHeading;
     }
 
     /// Returns the final heading
-    @property double finalHeading() const
+    double finalHeading() const
     {
         return m_radFinalHeading;
     }
 
     /// Returns the length
-    @property double length() const
+    double length() const
     {
         return m_length;
     }
@@ -175,7 +174,7 @@ private:
         Params:
             index = bezier index
     */
-    Increment incrementForIndex(const ref BezierIndex index) immutable
+    Increment incrementForIndex(const BezierIndex index) immutable
     {
         // Build an increment using the previous and next increments
         // found from the passed bezier index.
@@ -234,32 +233,54 @@ private:
         return newIncrement;
     }
 
-
 } // BezierCurve
 
 
 /**
     Computes and returns an array of increments
  */
-private auto ref computeIncrements(const Point2Dd A,
-                                   const Point2Dd B,
-                                   const Point2Dd C,
-                                   const Point2Dd D)
+private auto computeIncrements(const Point2Dd A,
+                               const Point2Dd B,
+                               const Point2Dd C,
+                               const Point2Dd D)
 {
-    Increment[] inc;
+    Increment[] increments;
 
     float distanceFromStart = 0.0;
-    float x1 = D.x();
-    float y1 = D.y();
+    float x1 = D.x;
+    float y1 = D.y;
 
-    inc ~= Increment(0.0, distanceFromStart, x1, y1);
+    Increment inc = { distanceFromPrevious:0.0,
+                      distanceFromStart:distanceFromStart,
+                      x:x1, y:y1 };
+    increments ~= inc;
 
-    return inc;
+    foreach (const(IndexMultiplier) mult; indexMultipliers())
+    {
+        float t = mult.t;
+        float t2 = mult.t2;
+        float t3 = mult.t3;
+
+        float x2 = (A.x() * t3) + (B.x() * t2) + (C.x() * t) + D.x();
+        float y2 = (A.y() * t3) + (B.y() * t2) + (C.y() * t) + D.y();
+
+        float incrementLength = sqrt(((x1-x2)*(x1-x2)) + ((y1-y2)*(y1-y2)));
+        distanceFromStart += incrementLength;
+
+        x1 = x2;
+        y1 = y2;
+
+        Increment inc2 = { distanceFromPrevious:incrementLength,
+                           distanceFromStart:distanceFromStart,
+                           x:x2, y:y2 };
+        increments ~= inc2;
+    }
+
+    return increments;
 }
 
 struct Increment
 {
-private:
     float distanceFromPrevious;
     float distanceFromStart;
     float x;
@@ -268,4 +289,14 @@ private:
 
 unittest
 {
+    writeln(indexMultipliers());
+
+    Point2Dd p1 = new Point2Dd(0.0, 0.0);
+    Point2Dd p2 = new Point2Dd(50.0, 0.0);
+    Point2Dd p3 = new Point2Dd(50.0, 50.0);
+    Point2Dd p4 = new Point2Dd(0.0, 50.0);
+
+    auto curve = new BezierCurve(p1, p2, p3, p4);
+    writeln(curve.length());
+    writeln(curve.increments());
 }

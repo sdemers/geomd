@@ -30,10 +30,10 @@ class Point2D(T)
     }
 
     /// Returns x coordinate
-    @property T x() const { return m_x; }
+    T x() const { return m_x; }
 
     /// Returns y coordinate.
-    @property T y() const { return m_y; }
+    T y() const { return m_y; }
 
     /// Adds rhs
     auto opBinary(string op, T)(const Point2D!T rhs) const if (op == "+")
