@@ -174,7 +174,7 @@ private:
         Params:
             index = bezier index
     */
-    Increment incrementForIndex(const BezierIndex index) immutable
+    Increment incrementForIndex(const BezierIndex index) const
     {
         // Build an increment using the previous and next increments
         // found from the passed bezier index.
@@ -297,6 +297,15 @@ unittest
     Point2Dd p4 = new Point2Dd(0.0, 50.0);
 
     auto curve = new BezierCurve(p1, p2, p3, p4);
-    writeln(curve.length());
-    writeln(curve.increments());
+    assert(checkClose!float(curve.length, 99.99983215));
+
+    BezierIndex index = new BezierIndex(0.5);
+    auto inc = curve.incrementForIndex(index);
+    assert(checkClose!float(inc.x, 37.5));
+
+    inc = curve.incrementForIndex(new BezierIndex(0.5001));
+    assert(checkClose!float(inc.x, 37.49996948));
+
+    assert(checkClose!float(curve.initHeading, 1.570796371));
+    assert(checkClose!float(curve.finalHeading, 4.712388992));
 }
