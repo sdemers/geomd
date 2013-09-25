@@ -19,6 +19,11 @@ bool isZero(T)(T value, T epsilon = 0.0000001)
     return abs(to!(T)(value)) < epsilon;
 }
 
+T sqr(T)(const T val)
+{
+    return val * val;
+}
+
 T normalizeRadian(T)(const T value)
 {
     if (value >= 0.0 &&
@@ -54,7 +59,7 @@ T radToDeg(T)(T rad)
 }
 
 /**
-  Filters an array of T with a function taking a T and an U. Returns a new
+    Filters an array of T with a function taking a T and an U. Returns a new
     array with the result.
 */
 public T[] filterArray(T, U)(T[] ts, U u, bool delegate(T, U) fp)
