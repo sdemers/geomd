@@ -38,8 +38,6 @@ class LineSegment
 
         m_length = sqrt(sqr(m_p1.x - m_p0.x) + sqr(m_p1.y - m_p0.y));
 
-        writefln("LineSegment length: %.2f", m_length);
-
         m_initHeading = normalizeRadian!double(atan2((m_p1.x() - m_p0.x()),
                                                      (m_p1.y() - m_p1.y())));
 
