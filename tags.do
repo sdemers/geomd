@@ -3,4 +3,6 @@
 redo-ifchange json
 redo-always
 
-${D2TAGS} *.json >$3
+if [ -x ${D2TAGS} ]; then
+    ${D2TAGS} *.json ${GEOMD}/*.json >$3
+fi
