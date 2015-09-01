@@ -26,6 +26,6 @@ Installation
 ============
 You will need:
 
-* [DMD Compiler](http://www.d-programming-language.org/dcompiler.html)
+* [DMD Compiler](http://dlang.org/download.html#dmd)
 * [redo](http://github.com/apenwarr/redo)
 * (optional) [d2tags](https://github.com/pjotrp/d2tags)
